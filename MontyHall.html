@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Monty Hall Problem using JavaScript</title>
+  </head>
+  <body>
+  <div id="noChange">
+	<h3>Results when contestant stayed with their first choice:</h3><br>
+  </div>
+  <div id="change">
+	<h3>Results when contestant changed their choice:</h3><br>
+  </div>
+  <div id="results">
+	<b>Results</b>:<br>
+  </div>
+  </body>
+</html>
+
+<script>
+	// Returns random number between min and max.
+	function randNum(min, max) {
+		return Math.floor((Math.random() * max) + min);
+	}
+	// Returns true if you win
+	// Returns false if you get a goat
+	function monty(change) {
+		var doors = [1, 2, 3],
+		firstChoice = randNum(1, 3),
+		correctChoice = randNum(1, 3);
+		// Check if the right door was chosen
+		if (firstChoice == correctChoice) {
+			// If so, if you don't switch your choice, you win!
+			if (!change)
+				return true;
+			// If you do switch your choice, you lose.
+			else
+				return false;
+		} else { // If you didn't choose right
+			// If you don't change, you lose.
+			if (!change)
+				return false;
+			// If you do change, you win, because the other wrong door was revealed.
+			else
+				return true;
+		}
+	}
+	
+	function checkWins(rounds) {
+		var changeWins = 0, noChangeWins = 0;
+	for (var i = 0; i < rounds; i++) {
+		if (monty(false))
+			noChangeWins++;
+		if (monty(true))
+			changeWins++;
+	}
+	document.getElementById("noChange").innerHTML += "Wins: " + noChangeWins;
+	document.getElementById("change").innerHTML += "Wins: " + changeWins;
+	if (noChangeWins > changeWins)
+		document.getElementById("results").innerHTML += "Sticking with your first choice wins. Ratio: " + noChangeWins / 1000;
+	else
+		document.getElementById("results").innerHTML += "Changing your first choice wins. Ratio: " + changeWins / 1000;
+	}
+	checkWins(1000);
+</script>
